@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerTankController : MonoBehaviour
 {
     public GameObject Bullet;
+    public float stoppingDistance = 30f;
 
     private Transform Turret;
     private Transform bulletSpawnPoint;
@@ -81,7 +82,7 @@ public class PlayerTankController : MonoBehaviour
         dir.Normalize();
 
         //Don't move the vehicle when the target point is reached
-        if (Vector3.Distance(targetPoint, transform.position) < 3.0f)
+        if (Vector3.Distance(targetPoint, transform.position) < stoppingDistance)
             return;
 
         //Assign the speed with delta time
