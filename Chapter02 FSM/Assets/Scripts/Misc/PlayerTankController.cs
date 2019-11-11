@@ -17,6 +17,8 @@ public class PlayerTankController : MonoBehaviour
     protected float shootRate;
     protected float elapsedTime;
 
+    private Vector3 targetPoint;
+
     void Start()
     {
         rotSpeed = 150.0f;
@@ -64,6 +66,33 @@ public class PlayerTankController : MonoBehaviour
             targetSpeed = 0;
         }
 
+
+        //Vehicle move by mouse click
+        RaycastHit hit;
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Input.GetMouseButtonDown(1) && Physics.Raycast(ray, out hit, 10000.0f))
+        {
+            targetPoint = hit.point;
+        }
+
+        //Directional vector to the target position
+        Vector3 dir = (targetPoint - transform.position);
+        dir.Normalize();
+
+        //Don't move the vehicle when the target point is reached
+        if (Vector3.Distance(targetPoint, transform.position) < 3.0f)
+            return;
+
+        //Assign the speed with delta time
+        curSpeed = 240.0f * Time.deltaTime;
+
+        //Rotate the vehicle to its target directional vector
+        var rot = Quaternion.LookRotation(dir);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rot, 5.0f * Time.deltaTime);
+
+        //Move the vehicle towards
+        transform.position += transform.forward * curSpeed;
         if (Input.GetKey(KeyCode.A))
         {
             transform.Rotate(0, -rotSpeed * Time.deltaTime, 0.0f);
