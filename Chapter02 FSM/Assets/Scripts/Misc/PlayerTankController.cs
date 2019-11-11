@@ -80,6 +80,7 @@ public class PlayerTankController : MonoBehaviour
         //Directional vector to the target position
         Vector3 dir = (targetPoint - transform.position);
         dir.Normalize();
+        targetPoint.y = 5;
 
         //Don't move the vehicle when the target point is reached
         if (Vector3.Distance(targetPoint, transform.position) < stoppingDistance)
