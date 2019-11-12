@@ -14,7 +14,8 @@ public class AStar
     /// <summary>
     /// Calculate the final path in the path finding
     /// </summary>
-    private static List<Node> CalculatePath(Node node)
+    private static List<Node> CalculatePath(Node node) //11 (not in algorithm): find complete path
+																						   //Gets the complete path from end to start, then reverses it
     {
         List<Node> list = new List<Node>();
         while (node != null)
@@ -29,7 +30,8 @@ public class AStar
     /// <summary>
     /// Calculate the estimated Heuristic cost to the goal
     /// </summary>
-    private static float HeuristicEstimateCost(Node curNode, Node goalNode)
+    private static float HeuristicEstimateCost(Node curNode, Node goalNode) //5: Determine the cost of nodes
+																															   //Gets a rough heuristic cost from a node to the end position
     {
         Vector3 vecCost = curNode.position - goalNode.position;
         return vecCost.magnitude;
@@ -38,7 +40,8 @@ public class AStar
     /// <summary>
     /// Find the path between start node and goal node using AStar Algorithm
     /// </summary>
-    public static List<Node> FindPath(Node start, Node goal)
+    public static List<Node> FindPath(Node start, Node goal) //1-10: pretty much the entire algorithm
+																									//This function is the backbone for the whole algorithm
     {
         //Start Finding the path
         openList = new PriorityQueue();

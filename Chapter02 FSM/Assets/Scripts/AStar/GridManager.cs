@@ -61,7 +61,8 @@ public class GridManager : MonoBehaviour
     /// <summary>
     /// Calculate which cells in the grids are mark as obstacles
     /// </summary>
-    void CalculateObstacles()
+    void CalculateObstacles() //0-4: Determine obstacles
+											   //Attempts to find obstacles in the scene and relate them to the proper node
     {
         //Initialise the nodes
         nodes = new Node[numOfColumns, numOfRows];
@@ -97,7 +98,8 @@ public class GridManager : MonoBehaviour
     /// <summary>
     /// Returns position of the grid cell in world coordinates
     /// </summary>
-    public Vector3 GetGridCellCenter(int index)
+    public Vector3 GetGridCellCenter(int index) //0-3.a: determine size of nodes
+																			  //Finds the center point for the node
     {
         Vector3 cellPosition = GetGridCellPosition(index);
         cellPosition.x += (gridCellSize / 2.0f);
@@ -109,7 +111,8 @@ public class GridManager : MonoBehaviour
     /// <summary>
     /// Returns position of the grid cell in a given index
     /// </summary>
-    public Vector3 GetGridCellPosition(int index)
+    public Vector3 GetGridCellPosition(int index) //0-2.b: map world area to grid
+																				//Finds the world point (transform position) of a node
     {
         int row = GetRow(index);
         int col = GetColumn(index);
@@ -158,7 +161,8 @@ public class GridManager : MonoBehaviour
     /// <summary>
     /// Check whether the current position is inside the grid or not
     /// </summary>
-    public bool IsInBounds(Vector3 pos)
+    public bool IsInBounds(Vector3 pos) //0-2.b: map world area to grid
+																 //Determines if a position is outside of the grid
     {
         float width = numOfColumns * gridCellSize;
         float height = numOfRows* gridCellSize;
@@ -170,7 +174,8 @@ public class GridManager : MonoBehaviour
     /// <summary>
     /// Get the neighour nodes in 4 different directions
     /// </summary>
-    public void GetNeighbours(Node node, List<Node> neighbors)
+    public void GetNeighbours(Node node, List<Node> neighbors) //4: Get the neighboring nodes
+																											 //Finds which nodes are neighboring the current one
     {
         Vector3 neighborPos = node.position;
         int neighborIndex = GetGridIndex(neighborPos);
@@ -211,7 +216,8 @@ public class GridManager : MonoBehaviour
 	/// <param name='neighbors'>
 	/// Neighbors.
 	/// </param>
-    void AssignNeighbour(int row, int column, List<Node> neighbors)
+    void AssignNeighbour(int row, int column, List<Node> neighbors) //4: Get neighboring nodes
+																												   //Checks if neighbors are obstacles
     {
         if (row != -1 && column != -1 && row < numOfRows && column < numOfColumns)
         {
