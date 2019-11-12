@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
 public class PriorityQueue 
 {
     // node array to store the priority queue
-    private ArrayList nodes = new ArrayList();
+    private List<Node> nodes = new List<Node>();
 
     /// <summary>
     /// Number of nodes in the priority queue
@@ -17,7 +17,7 @@ public class PriorityQueue
     /// <summary>
     /// Check whether the node is already in the queue or not
     /// </summary>
-    public bool Contains(object node)
+    public bool Contains(Node node)
     {
         return this.nodes.Contains(node);
     }

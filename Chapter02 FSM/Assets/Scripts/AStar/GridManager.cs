@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 //Grid manager class handles all the grid properties
 public class GridManager : MonoBehaviour
@@ -169,7 +170,7 @@ public class GridManager : MonoBehaviour
     /// <summary>
     /// Get the neighour nodes in 4 different directions
     /// </summary>
-    public void GetNeighbours(Node node, ArrayList neighbors)
+    public void GetNeighbours(Node node, List<Node> neighbors)
     {
         Vector3 neighborPos = node.position;
         int neighborIndex = GetGridIndex(neighborPos);
@@ -210,7 +211,7 @@ public class GridManager : MonoBehaviour
 	/// <param name='neighbors'>
 	/// Neighbors.
 	/// </param>
-    void AssignNeighbour(int row, int column, ArrayList neighbors)
+    void AssignNeighbour(int row, int column, List<Node> neighbors)
     {
         if (row != -1 && column != -1 && row < numOfRows && column < numOfColumns)
         {

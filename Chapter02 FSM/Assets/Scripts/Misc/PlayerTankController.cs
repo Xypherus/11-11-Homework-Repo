@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerTankController : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class PlayerTankController : MonoBehaviour
     private float maxForwardSpeed = 300.0f;
     private float maxBackwardSpeed = -300.0f;
     private int playerHealth = 100;
+    private int currentIntentNode = 0;
+    private List<Node> path = new List<Node>();
 
 
     protected float shootRate;
@@ -54,7 +57,7 @@ public class PlayerTankController : MonoBehaviour
             Turret.transform.rotation = Quaternion.Slerp(Turret.transform.rotation, targetRotation, Time.deltaTime * turretRotSpeed);
         }
 
-        if (Input.GetKey(KeyCode.W))
+        /* if (Input.GetKey(KeyCode.W))
         {
             targetSpeed = maxForwardSpeed;
         }
@@ -65,7 +68,7 @@ public class PlayerTankController : MonoBehaviour
         else
         {
             targetSpeed = 0;
-        }
+        } */
 
 
         //Vehicle move by mouse click
@@ -75,16 +78,40 @@ public class PlayerTankController : MonoBehaviour
         if (Input.GetMouseButtonDown(1) && Physics.Raycast(ray, out hit, 10000.0f))
         {
             targetPoint = hit.point;
+
+            Debug.Log("targetpoint:" + targetPoint);
+
+            Node startNode = new Node(GridManager.instance.GetGridCellCenter(GridManager.instance.GetGridIndex(transform.position)));
+            Node endNode = new Node(GridManager.instance.GetGridCellCenter(GridManager.instance.GetGridIndex(targetPoint)));
+
+            Debug.Log("start node: " + startNode.position);
+            Debug.Log("end node: " + endNode.position);
+
+            path = AStar.FindPath(startNode, endNode);
+
+            foreach (Node n in path)
+            {
+                Debug.Log("node pos: " + n.position);
+            }
+
+
+            Debug.Log("Path.count = " + path.Count);
+            currentIntentNode = 1;
         }
 
+        //AStar.FindPath()
+
         //Directional vector to the target position
-        Vector3 dir = (targetPoint - transform.position);
+        Vector3 dir = (path[currentIntentNode].position - transform.position);
         dir.Normalize();
         targetPoint.y = 5;
 
         //Don't move the vehicle when the target point is reached
-        if (Vector3.Distance(targetPoint, transform.position) < stoppingDistance)
+        if (Vector3.Distance(path[currentIntentNode].position, transform.position) < stoppingDistance)
+        {
+            currentIntentNode += 1;
             return;
+        }
 
         //Assign the speed with delta time
         curSpeed = 240.0f * Time.deltaTime;

@@ -58,7 +58,7 @@ public class AStar
                 return CalculatePath(node);
             }
 			
-            ArrayList neighbours = new ArrayList();
+            List<Node> neighbours = new List<Node>();
             GridManager.instance.GetNeighbours(node, neighbours);
 
             #region CheckNeighbours
