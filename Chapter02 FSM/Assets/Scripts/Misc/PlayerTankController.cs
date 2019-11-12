@@ -99,40 +99,42 @@ public class PlayerTankController : MonoBehaviour
             currentIntentNode = 1;
         }
 
-        //AStar.FindPath()
+		//Only run this if there is a path to follow
+		if (path != null && path.Count > 0)
+		{
+			//Directional vector to the target position
+			Vector3 dir = (path[currentIntentNode].position - transform.position);
+			dir.Normalize();
+			targetPoint.y = 5;
 
-        //Directional vector to the target position
-        Vector3 dir = (path[currentIntentNode].position - transform.position);
-        dir.Normalize();
-        targetPoint.y = 5;
+			//Don't move the vehicle when the target point is reached
+			if (Vector3.Distance(path[currentIntentNode].position, transform.position) < stoppingDistance)
+			{
+				currentIntentNode += 1;
+				return;
+			}
 
-        //Don't move the vehicle when the target point is reached
-        if (Vector3.Distance(path[currentIntentNode].position, transform.position) < stoppingDistance)
-        {
-            currentIntentNode += 1;
-            return;
-        }
+			//Assign the speed with delta time
+			curSpeed = 240.0f * Time.deltaTime;
 
-        //Assign the speed with delta time
-        curSpeed = 240.0f * Time.deltaTime;
+			//Rotate the vehicle to its target directional vector
+			var rot = Quaternion.LookRotation(dir);
+			transform.rotation = Quaternion.Slerp(transform.rotation, rot, 5.0f * Time.deltaTime);
 
-        //Rotate the vehicle to its target directional vector
-        var rot = Quaternion.LookRotation(dir);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rot, 5.0f * Time.deltaTime);
+			//Move the vehicle towards
+			transform.position += transform.forward * curSpeed;
+			/*if (Input.GetKey(KeyCode.A))
+			{
+				transform.Rotate(0, -rotSpeed * Time.deltaTime, 0.0f);
+			}
+			else if (Input.GetKey(KeyCode.D))
+			{
+				transform.Rotate(0, rotSpeed * Time.deltaTime, 0.0f);
+			}*/
 
-        //Move the vehicle towards
-        transform.position += transform.forward * curSpeed;
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.Rotate(0, -rotSpeed * Time.deltaTime, 0.0f);
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            transform.Rotate(0, rotSpeed * Time.deltaTime, 0.0f);
-        }
-
-        curSpeed = Mathf.Lerp(curSpeed, targetSpeed, 7.0f * Time.deltaTime);
-        transform.Translate(Vector3.forward * Time.deltaTime * curSpeed);
+			curSpeed = Mathf.Lerp(curSpeed, targetSpeed, 7.0f * Time.deltaTime);
+			transform.Translate(Vector3.forward * Time.deltaTime * curSpeed);
+		}
     }
 
 

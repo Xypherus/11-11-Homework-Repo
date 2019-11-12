@@ -7,7 +7,7 @@ public class AStar
     #region List fields
 
     public static PriorityQueue openList;
-    public static HashSet<Node> closedList;
+    public static List<Node> closedList;
 
     #endregion
 
@@ -46,7 +46,7 @@ public class AStar
         start.nodeTotalCost = 0.0f;
         start.estimatedCost = HeuristicEstimateCost(start, goal);
 
-        closedList = new HashSet<Node>();
+        closedList = new List<Node>();
         Node node = null;
 
         while (openList.Length != 0)
