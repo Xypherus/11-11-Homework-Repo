@@ -20,10 +20,13 @@ public class AStar
         List<Node> list = new List<Node>();
         while (node != null)
         {
+            Debug.Log("Inside While Loop");
             list.Add(node);
             node = node.parent;
         }
         list.Reverse();
+
+        Debug.Log("List Count: " + list.Count);
         return list;
     }
 
@@ -54,10 +57,12 @@ public class AStar
 
         while (openList.Length != 0)
         {
+            Debug.Log("Find path While has run");
             node = openList.First();
 
             if (node.position == goal.position)
             {
+                Debug.Log("Pos = Goal");
                 return CalculatePath(node);
             }
 			

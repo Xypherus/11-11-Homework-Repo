@@ -93,6 +93,8 @@ public class GridManager : MonoBehaviour
                 nodes[row, col].MarkAsObstacle();
             }
         }
+        
+        Debug.Log("nodes.Length: " + nodes.Length);
     }
     
     /// <summary>
